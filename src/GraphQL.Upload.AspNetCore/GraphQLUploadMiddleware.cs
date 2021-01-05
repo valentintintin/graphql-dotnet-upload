@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GraphQL.Execution;
 using GraphQL.Types;
+using GraphQL.Validation.Complexity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -101,9 +102,17 @@ namespace GraphQL.Upload.AspNetCore
                     options.CancellationToken = context.RequestAborted;
                     options.Schema = schema;
                     options.Query = request.Query;
-                    options.OperationName = request.OperationName;
+                    options.RequestServices = context.RequestServices;
                     options.Inputs = request.GetInputs();
+                    options.OperationName = request.OperationName;
                     options.UserContext = _options.UserContextFactory?.Invoke(context);
+                    options.ComplexityConfiguration = _options.ComplexityConfiguration;
+                    options.UnhandledExceptionDelegate = _options.UnhandledExceptionDelegate;
+                    if (_options.ValidationRules?.Any() == true)
+                    {
+                        options.ValidationRules = _options.ValidationRules;
+                    }
+                    
                     foreach (var listener in context.RequestServices.GetRequiredService<IEnumerable<IDocumentExecutionListener>>())
                     {
                         options.Listeners.Add(listener);

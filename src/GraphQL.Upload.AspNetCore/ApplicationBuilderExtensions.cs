@@ -69,5 +69,18 @@ namespace Microsoft.AspNetCore.Builder
 
             return builder.UseMiddleware<GraphQLUploadMiddleware<TSchema>>(options, path);
         }
+
+        /// <summary>
+        /// Adds the <see cref="GraphQLUploadMiddleware{TSchema}"/> to handle file uploads in GraphQL requests.
+        /// </summary>
+        /// <typeparam name="TSchema">The implementation of <see cref="ISchema"/> to use</typeparam>
+        /// <param name="builder">The application builder</param>
+        /// <param name="options">The options used to configure the <see cref="GraphQLUploadMiddleware{TSchema}"/></param>
+        /// <returns>The <see cref="IApplicationBuilder"/> received as parameter</returns>>
+        public static IApplicationBuilder UseGraphQLUpload<TSchema>(this IApplicationBuilder builder, GraphQLUploadOptions options)
+            where TSchema : ISchema
+        {
+            return UseGraphQLUpload<TSchema>(builder, (PathString) "/graphql", options);
+        }
     }
 }
