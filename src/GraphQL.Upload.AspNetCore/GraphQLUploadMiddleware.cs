@@ -106,17 +106,13 @@ namespace GraphQL.Upload.AspNetCore
                     options.Inputs = request.GetInputs();
                     options.OperationName = request.OperationName;
                     options.UserContext = _options.UserContextFactory?.Invoke(context);
-                    options.ComplexityConfiguration = _options.ComplexityConfiguration;
-                    options.UnhandledExceptionDelegate = _options.UnhandledExceptionDelegate;
-                    if (_options.ValidationRules?.Any() == true)
-                    {
-                        options.ValidationRules = _options.ValidationRules;
-                    }
                     
                     foreach (var listener in context.RequestServices.GetRequiredService<IEnumerable<IDocumentExecutionListener>>())
                     {
                         options.Listeners.Add(listener);
                     }
+
+                    _options.ConfigureOptions?.Invoke(options);
                 })));
 
             await WriteResponseAsync(context, writer, results);

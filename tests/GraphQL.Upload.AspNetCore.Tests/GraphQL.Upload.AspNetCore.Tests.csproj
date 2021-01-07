@@ -17,10 +17,6 @@
     <ProjectReference Include="..\..\src\GraphQL.Upload.AspNetCore\GraphQL.Upload.AspNetCore.csproj" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(IsNetCore3OnwardsTarget)' == 'True'">
-    <DefineConstants>IS_NET_CORE_3_ONWARDS_TARGET</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup Condition="'$(IsNetCore3OnwardsTarget)' == 'True'">
     <PackageReference Include="GraphQL.SystemTextJson" Version="$(GraphQLVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.2" />

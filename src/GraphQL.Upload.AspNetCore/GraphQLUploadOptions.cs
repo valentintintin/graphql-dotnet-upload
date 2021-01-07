@@ -27,13 +27,6 @@ namespace GraphQL.Upload.AspNetCore
         /// </summary>
         public Func<HttpContext, IDictionary<string, object>> UserContextFactory { get; set; }
 
-        /// <summary>
-        /// Gets or sets the complexity rules
-        /// </summary>
-        public ComplexityConfiguration ComplexityConfiguration { get; set; }
-        
-        public IEnumerable<IValidationRule> ValidationRules { get; set; }
-        
-        public Action<UnhandledExceptionContext> UnhandledExceptionDelegate { get; set; } = context => { };
+        public Action<ExecutionOptions> ConfigureOptions { get; set; }
     }
 }
